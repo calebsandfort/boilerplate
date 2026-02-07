@@ -1,0 +1,55 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js
+.next/
+out/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage/
+htmlcov/
+.coverage
+.pytest_cache/
+.vitest/
+
+# Docker
+docker-compose.override.yml
+
+# Database
+pgdata/
+
+# Drizzle
+drizzle/meta/
+
+# Misc
+*.log
+*.tsbuildinfo
