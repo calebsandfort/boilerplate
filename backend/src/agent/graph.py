@@ -1,3 +1,4 @@
+from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, START, StateGraph
 
 from src.agent.nodes import chat_node
@@ -9,7 +10,7 @@ def build_graph() -> StateGraph:
     graph.add_node("chat", chat_node)
     graph.add_edge(START, "chat")
     graph.add_edge("chat", END)
-    return graph.compile()
+    return graph.compile(checkpointer=MemorySaver())
 
 
 agent = build_graph()

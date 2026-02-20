@@ -1,22 +1,28 @@
+import { HttpAgent } from "@ag-ui/client"
+import {
+  CopilotRuntime,
+  ExperimentalEmptyAdapter,
+  copilotRuntimeNextJSAppRouterEndpoint,
+} from "@copilotkit/runtime"
 import { NextRequest } from "next/server"
 
 const BACKEND_URL = process.env.BACKEND_URL ?? "http://localhost:8000"
 
-export async function POST(request: NextRequest) {
-  const body = await request.text()
+const chat_agent = new HttpAgent({
+  url: `${BACKEND_URL}/copilotkit`,
+})
 
-  const response = await fetch(`${BACKEND_URL}/copilotkit`, {
-    method: "POST",
-    headers: {
-      "Content-Type": request.headers.get("Content-Type") ?? "application/json",
-    },
-    body,
-  })
+const runtime = new CopilotRuntime({
+  agents: {
+    chat_agent,
+  },
+})
 
-  return new Response(response.body, {
-    status: response.status,
-    headers: {
-      "Content-Type": response.headers.get("Content-Type") ?? "application/json",
-    },
+export const POST = async (req: NextRequest) => {
+  const { handleRequest } = copilotRuntimeNextJSAppRouterEndpoint({
+    runtime,
+    serviceAdapter: new ExperimentalEmptyAdapter(),
+    endpoint: "/api/copilotkit",
   })
+  return handleRequest(req)
 }

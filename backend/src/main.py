@@ -1,11 +1,14 @@
-from copilotkit import CopilotKitRemoteEndpoint
-from copilotkit.integrations.fastapi import add_fastapi_endpoint
-from copilotkit.langgraph_agui_agent import LangGraphAGUIAgent
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
 
-from src.agent.graph import agent
-from src.api.router import api_router
+load_dotenv()
+
+from ag_ui_langgraph import add_langgraph_fastapi_endpoint  # noqa: E402
+from copilotkit import LangGraphAGUIAgent  # noqa: E402
+from fastapi import FastAPI  # noqa: E402
+from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
+
+from src.agent.graph import agent  # noqa: E402
+from src.api.router import api_router  # noqa: E402
 
 app = FastAPI(title="Boilerplate API")
 
@@ -19,14 +22,10 @@ app.add_middleware(
 
 app.include_router(api_router)
 
-sdk = CopilotKitRemoteEndpoint(
-    agents=[
-        LangGraphAGUIAgent(
-            name="chat_agent",
-            description="A helpful AI chat assistant.",
-            graph=agent,
-        )
-    ]
+copilot_agent = LangGraphAGUIAgent(
+    name="chat_agent",
+    description="A helpful AI chat assistant.",
+    graph=agent,
 )
 
-add_fastapi_endpoint(app, sdk, "/copilotkit")
+add_langgraph_fastapi_endpoint(app, copilot_agent, "/copilotkit")
