@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+    <style>
+      .box { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 2; rx: 8; }
+      .box-label { font-family: system-ui, sans-serif; font-size: 14px; fill: #334155; font-weight: 600; }
+      .box-sub { font-family: system-ui, sans-serif; font-size: 11px; fill: #64748b; }
+      .arrow { stroke: #64748b; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .external { fill: #fef3c7; stroke: #f59e0b; }
+      .service { fill: #dbeafe; stroke: #3b82f6; }
+      .db { fill: #fce7f3; stroke: #ec4899; }
+      .title { font-family: system-ui, sans-serif; font-size: 20px; fill: #1e293b; font-weight: 700; }
+    </style>
+  </defs>
+
+  <text x="400" y="30" class="title" text-anchor="middle">System Architecture</text>
+
+  <!-- Browser -->
+  <g transform="translate(50, 80)">
+    <rect class="box external" width="120" height="60"/>
+    <text x="60" y="30" class="box-label" text-anchor="middle">Browser</text>
+    <text x="60" y="45" class="box-sub" text-anchor="middle">(User Interface)</text>
+  </g>
+
+  <!-- Frontend -->
+  <g transform="translate(250, 80)">
+    <rect class="box service" width="150" height="120"/>
+    <text x="75" y="25" class="box-label" text-anchor="middle">Frontend</text>
+    <text x="75" y="45" class="box-sub" text-anchor="middle">Next.js 15</text>
+    <line x1="10" y1="55" x2="140" y2="55" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="75" y="70" class="box-sub" text-anchor="middle">• UI Components</text>
+    <text x="75" y="85" class="box-sub" text-anchor="middle">• Better Auth</text>
+    <text x="75" y="100" class="box-sub" text-anchor="middle">• CopilotKit Proxy</text>
+  </g>
+
+  <!-- Backend -->
+  <g transform="translate(250, 250)">
+    <rect class="box service" width="150" height="120"/>
+    <text x="75" y="25" class="box-label" text-anchor="middle">Backend</text>
+    <text x="75" y="45" class="box-sub" text-anchor="middle">FastAPI</text>
+    <line x1="10" y1="55" x2="140" y2="55" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="75" y="70" class="box-sub" text-anchor="middle">• LangGraph Agent</text>
+    <text x="75" y="85" class="box-sub" text-anchor="middle">• OpenAI LLM</text>
+    <text x="75" y="100" class="box-sub" text-anchor="middle">• Health API</text>
+  </g>
+
+  <!-- Database -->
+  <g transform="translate(500, 140)">
+    <rect class="box db" width="140" height="80"/>
+    <text x="70" y="30" class="box-label" text-anchor="middle">Database</text>
+    <text x="70" y="50" class="box-sub" text-anchor="middle">PostgreSQL</text>
+    <text x="70" y="65" class="box-sub" text-anchor="middle">(Drizzle ORM)</text>
+  </g>
+
+  <!-- OpenAI -->
+  <g transform="translate(500, 280)">
+    <rect class="box external" width="140" height="60"/>
+    <text x="70" y="25" class="box-label" text-anchor="middle">OpenAI API</text>
+    <text x="70" y="42" class="box-sub" text-anchor="middle">GPT-4o-mini</text>
+  </g>
+
+  <!-- Arrows -->
+  <path d="M170 110 L240 110" class="arrow"/>
+  <path d="M400 140 L400 180 L260 180 L260 250" class="arrow"/>
+  <path d="M400 140 L490 140" class="arrow"/>
+  <path d="M260 310 L260 350 L400 350 L400 310" class="arrow"/>
+  <path d="M640 200 L640 280" class="arrow"/>
+
+  <!-- Labels -->
+  <text x="210" y="100" font-size="10" fill="#64748b">HTTP</text>
+  <text x="420" y="170" font-size="10" fill="#64748b">Proxy</text>
+  <text x="430" y="130" font-size="10" fill="#64748b">SQL</text>
+  <text x="430" y="330" font-size="10" fill="#64748b">API</text>
+  <text x="660" y="250" font-size="10" fill="#64748b">HTTPS</text>
+</svg>

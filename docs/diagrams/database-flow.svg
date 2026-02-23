@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+    <style>
+      .box { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 2; rx: 8; }
+      .box-label { font-family: system-ui, sans-serif; font-size: 12px; fill: #334155; font-weight: 600; }
+      .arrow { stroke: #64748b; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .title { font-family: system-ui, sans-serif; font-size: 18px; fill: #1e293b; font-weight: 700; }
+      .highlight { fill: #dbeafe; stroke: #3b82f6; }
+      .db { fill: #fce7f3; stroke: #ec4899; }
+      .table { fill: #f8fafc; stroke: #94a3b8; stroke-width: 1; rx: 4; }
+      .field { font-family: monospace; font-size: 10px; fill: #475569; }
+    </style>
+  </defs>
+
+  <text x="400" y="25" class="title" text-anchor="middle">Database Operations Flow</text>
+
+  <!-- Frontend -->
+  <g transform="translate(50, 60)">
+    <rect class="box highlight" width="100" height="40"/>
+    <text x="50" y="25" class="box-label" text-anchor="middle">Frontend</text>
+  </g>
+
+  <!-- Drizzle Client -->
+  <g transform="translate(200, 60)">
+    <rect class="box highlight" width="120" height="40"/>
+    <text x="60" y="25" class="box-label" text-anchor="middle">Drizzle Client</text>
+  </g>
+
+  <!-- Database -->
+  <g transform="translate(500, 60)">
+    <rect class="box db" width="120" height="40"/>
+    <text x="60" y="25" class="box-label" text-anchor="middle">PostgreSQL</text>
+  </g>
+
+  <!-- Better Auth -->
+  <g transform="translate(50, 160)">
+    <rect class="box" width="100" height="40"/>
+    <text x="50" y="25" class="box-label" text-anchor="middle">Better Auth</text>
+  </g>
+
+  <!-- Drizzle Adapter -->
+  <g transform="translate(200, 160)">
+    <rect class="box highlight" width="120" height="40"/>
+    <text x="60" y="25" class="box-label" text-anchor="middle">drizzleAdapter</text>
+  </g>
+
+  <!-- Arrows -->
+  <path d="M150 80 L190 80" class="arrow"/>
+  <path d="M320 80 L490 80" class="arrow"/>
+  <path d="M100 130 L100 150" class="arrow"/>
+  <path d="M150 180 L190 180" class="arrow"/>
+  <path d="M320 180 L490 180" class="arrow"/>
+
+  <!-- Schema Tables -->
+  <g transform="translate(500, 130)">
+    <rect class="table" width="250" height="180"/>
+    <text x="125" y="18" class="box-label" text-anchor="middle">Auth Tables</text>
+
+    <!-- User table -->
+    <rect x="10" y="28" width="230" height="35" class="table" fill="#f1f5f9"/>
+    <text x="15" y="42" class="field">user</text>
+    <text x="15" y="55" class="field" fill="#94a3b8">id, name, email, emailVerified, image</text>
+
+    <!-- Session table -->
+    <rect x="10" y="68" width="230" height="35" class="table" fill="#f1f5f9"/>
+    <text x="15" y="82" class="field">session</text>
+    <text x="15" y="95" class="field" fill="#94a3b8">id, expiresAt, token, userId</text>
+
+    <!-- Account table -->
+    <rect x="10" y="108" width="230" height="35" class="table" fill="#f1f5f9"/>
+    <text x="15" y="122" class="field">account</text>
+    <text x="15" y="135" class="field" fill="#94a3b8">accountId, providerId, accessToken...</text>
+
+    <!-- Verification table -->
+    <rect x="10" y="148" width="230" height="35" class="table" fill="#f1f5f9"/>
+    <text x="15" y="162" class="field">verification</text>
+    <text x="15" y="175" class="field" fill="#94a3b8">identifier, value, expiresAt</text>
+  </g>
+
+  <!-- Labels -->
+  <text x="170" y="72" font-size="9" fill="#64748b">query</text>
+  <text x="400" y="72" font-size="9" fill="#64748b">SQL</text>
+  <text x="155" y="140" font-size="9" fill="#64748b">uses</text>
+  <text x="255" y="172" font-size="9" fill="#64748b">adapter</text>
+  <text x="400" y="172" font-size="9" fill="#64748b">CRUD</text>
+
+  <!-- Legend -->
+  <g transform="translate(50, 280)">
+    <text x="0" y="0" font-size="11" fill="#64748b" font-weight="600">Connection String:</text>
+    <text x="0" y="18" font-size="10" fill="#64748b" font-family="monospace">postgresql://postgres:postgres@localhost:5432/boilerplate</text>
+
+    <text x="250" y="0" font-size="11" fill="#64748b" font-weight="600">Config File:</text>
+    <text x="250" y="18" font-size="10" fill="#64748b">frontend/drizzle.config.ts</text>
+  </g>
+</svg>

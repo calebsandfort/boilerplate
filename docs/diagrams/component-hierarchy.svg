@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+    <style>
+      .box { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 2; rx: 8; }
+      .box-label { font-family: system-ui, sans-serif; font-size: 11px; fill: #334155; font-weight: 600; }
+      .arrow { stroke: #64748b; stroke-width: 1.5; fill: none; marker-end: url(#arrowhead); }
+      .title { font-family: system-ui, sans-serif; font-size: 18px; fill: #1e293b; font-weight: 700; }
+      .provider { fill: #dbeafe; stroke: #3b82f6; }
+      .feature { fill: #f0fdf4; stroke: #22c55e; }
+      .ui { fill: #fef3c7; stroke: #f59e0b; }
+    </style>
+  </defs>
+
+  <text x="400" y="25" class="title" text-anchor="middle">Frontend Component Hierarchy</text>
+
+  <!-- Root Layout -->
+  <g transform="translate(300, 60)">
+    <rect class="box" width="200" height="40"/>
+    <text x="100" y="25" class="box-label" text-anchor="middle">RootLayout (app/layout.tsx)</text>
+  </g>
+
+  <!-- Providers -->
+  <g transform="translate(300, 120)">
+    <rect class="box provider" width="200" height="40"/>
+    <text x="100" y="25" class="box-label" text-anchor="middle">Providers Component</text>
+  </g>
+
+  <!-- SessionProvider & CopilotProvider -->
+  <g transform="translate(100, 180)">
+    <rect class="box provider" width="150" height="40"/>
+    <text x="75" y="25" class="box-label" text-anchor="middle">SessionProvider</text>
+  </g>
+
+  <g transform="translate(300, 180)">
+    <rect class="box provider" width="150" height="40"/>
+    <text x="75" y="25" class="box-label" text-anchor="middle">CopilotProvider</text>
+  </g>
+
+  <g transform="translate(500, 180)">
+    <rect class="box" width="150" height="40"/>
+    <text x="75" y="25" class="box-label" text-anchor="middle">Children</text>
+  </g>
+
+  <!-- Page Components -->
+  <g transform="translate(50, 250)">
+    <rect class="box ui" width="140" height="35"/>
+    <text x="70" y="22" class="box-label" text-anchor="middle">page.tsx</text>
+  </g>
+
+  <g transform="translate(220, 250)">
+    <rect class="box ui" width="140" height="35"/>
+    <text x="70" y="22" class="box-label" text-anchor="middle">SignInPage</text>
+  </g>
+
+  <g transform="translate(390, 250)">
+    <rect class="box ui" width="140" height="35"/>
+    <text x="70" y="22" class="box-label" text-anchor="middle">SignUpPage</text>
+  </g>
+
+  <g transform="translate(560, 250)">
+    <rect class="box ui" width="140" height="35"/>
+    <text x="70" y="22" class="box-label" text-anchor="middle">Dashboard</text>
+  </g>
+
+  <!-- Feature Components -->
+  <g transform="translate(560, 310)">
+    <rect class="box feature" width="140" height="35"/>
+    <text x="70" y="22" class="box-label" text-anchor="middle">CopilotChat</text>
+  </g>
+
+  <g transform="translate(390, 310)">
+    <rect class="box feature" width="140" height="35"/>
+    <text x="70" y="22" class="box-label" text-anchor="middle">CopilotPopup</text>
+  </g>
+
+  <!-- Auth Components -->
+  <g transform="translate(50, 310)">
+    <rect class="box ui" width="140" height="35"/>
+    <text x="70" y="22" class="box-label" text-anchor="middle">SignInForm</text>
+  </g>
+
+  <g transform="translate(220, 310)">
+    <rect class="box ui" width="140" height="35"/>
+    <text x="70" y="22" class="box-label" text-anchor="middle">SignUpForm</text>
+  </g>
+
+  <!-- API Routes -->
+  <g transform="translate(50, 380)">
+    <rect class="box" width="180" height="35"/>
+    <text x="90" y="22" class="box-label" text-anchor="middle">/api/auth/[...all]</text>
+  </g>
+
+  <g transform="translate(260, 380)">
+    <rect class="box" width="180" height="35"/>
+    <text x="90" y="22" class="box-label" text-anchor="middle">/api/copilotkit</text>
+  </g>
+
+  <!-- Arrows -->
+  <path d="M400 100 L400 110" class="arrow"/>
+  <path d="M400 160 L400 170" class="arrow"/>
+  <path d="M175 220 L140 220 L140 240" class="arrow"/>
+  <path d="M375 220 L350 220 L350 240" class="arrow"/>
+  <path d="M575 220 L560 220 L560 240 L530 240 L530 250" class="arrow"/>
+  <path d="M590 250 L590 300" class="arrow"/>
+  <path d="M460 250 L430 250 L430 300" class="arrow"/>
+  <path d="M120 250 L120 300" class="arrow"/>
+  <path d="M290 250 L290 300" class="arrow"/>
+  <path d="M120 345 L120 370" class="arrow"/>
+  <path d="M350 345 L350 370" class="arrow"/>
+</svg>

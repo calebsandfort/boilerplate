@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+    <style>
+      .box { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 2; rx: 8; }
+      .box-label { font-family: system-ui, sans-serif; font-size: 12px; fill: #334155; font-weight: 600; }
+      .arrow { stroke: #64748b; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .title { font-family: system-ui, sans-serif; font-size: 18px; fill: #1e293b; font-weight: 700; }
+      .step { font-family: system-ui, sans-serif; font-size: 10px; fill: #64748b; }
+      .highlight { fill: #dbeafe; stroke: #3b82f6; }
+      .ai { fill: #f0fdf4; stroke: #22c55e; }
+      .external { fill: #fef3c7; stroke: #f59e0b; }
+    </style>
+  </defs>
+
+  <text x="400" y="25" class="title" text-anchor="middle">AI Chat Data Flow (AG-UI Protocol)</text>
+
+  <!-- User -->
+  <g transform="translate(50, 60)">
+    <rect class="box" width="90" height="40"/>
+    <text x="45" y="25" class="box-label" text-anchor="middle">User</text>
+  </g>
+
+  <!-- CopilotChat -->
+  <g transform="translate(180, 60)">
+    <rect class="box highlight" width="130" height="40"/>
+    <text x="65" y="25" class="box-label" text-anchor="middle">CopilotChat UI</text>
+  </g>
+
+  <!-- CopilotKit Provider -->
+  <g transform="translate(350, 60)">
+    <rect class="box highlight" width="130" height="40"/>
+    <text x="65" y="25" class="box-label" text-anchor="middle">CopilotProvider</text>
+  </g>
+
+  <!-- Next.js API Route -->
+  <g transform="translate(350, 150)">
+    <rect class="box highlight" width="130" height="40"/>
+    <text x="65" y="25" class="box-label" text-anchor="middle">/api/copilotkit</text>
+  </g>
+
+  <!-- HttpAgent -->
+  <g transform="translate(180, 150)">
+    <rect class="box" width="130" height="40"/>
+    <text x="65" y="25" class="box-label" text-anchor="middle">HttpAgent</text>
+  </g>
+
+  <!-- FastAPI Endpoint -->
+  <g transform="translate(180, 250)">
+    <rect class="box highlight" width="130" height="40"/>
+    <text x="65" y="25" class="box-label" text-anchor="middle">/copilotkit</text>
+  </g>
+
+  <!-- LangGraphAGUIAgent -->
+  <g transform="translate(350, 250)">
+    <rect class="box ai" width="130" height="40"/>
+    <text x="65" y="25" class="box-label" text-anchor="middle">LangGraphAgent</text>
+  </g>
+
+  <!-- StateGraph -->
+  <g transform="translate(530, 250)">
+    <rect class="box ai" width="130" height="40"/>
+    <text x="65" y="25" class="box-label" text-anchor="middle">StateGraph</text>
+  </g>
+
+  <!-- ChatOpenAI -->
+  <g transform="translate(530, 350)">
+    <rect class="box ai" width="130" height="40"/>
+    <text x="65" y="25" class="box-label" text-anchor="middle">ChatOpenAI</text>
+  </g>
+
+  <!-- OpenAI -->
+  <g transform="translate(700, 350)">
+    <rect class="box external" width="80" height="40"/>
+    <text x="40" y="25" class="box-label" text-anchor="middle">OpenAI</text>
+  </g>
+
+  <!-- Database -->
+  <g transform="translate(530, 150)">
+    <rect class="box" width="130" height="40"/>
+    <text x="65" y="25" class="box-label" text-anchor="middle">MemorySaver</text>
+  </g>
+
+  <!-- Arrows - Request -->
+  <path d="M140 80 L170 80" class="arrow"/>
+  <path d="M310 80 L340 80" class="arrow"/>
+  <path d="M230 100 L230 130" class="arrow"/>
+  <path d="M350 100 L350 140" class="arrow"/>
+  <path d="M230 190 L200 190" class="arrow"/>
+  <path d="M310 190 L200 190" class="arrow"/>
+  <path d="M180 290 L170 290" class="arrow"/>
+  <path d="M310 290 L320 290" class="arrow"/>
+  <path d="M480 290 L520 290" class="arrow"/>
+  <path d="M595 350 L530 350" class="arrow"/>
+
+  <!-- Arrows - Response -->
+  <path d="M520 380 L520 300 L480 300" class="arrow"/>
+  <path d="M180 300 L180 210 L230 210" class="arrow"/>
+
+  <!-- Labels -->
+  <text x="155" y="72" font-size="9" fill="#64748b">message</text>
+  <text x="325" y="72" font-size="9" fill="#64748b">send</text>
+  <text x="238" y="120" font-size="8" fill="#64748b">/api/copilotkit</text>
+  <text x="358" y="120" font-size="8" fill="#64748b">proxy</text>
+  <text x="195" y="182" font-size="8" fill="#64748b">HttpAgent</text>
+  <text x="260" y="182" font-size="8" fill="#64748b">forward</text>
+  <text x="140" y="282" font-size="8" fill="#64748b">AG-UI</text>
+  <text x="350" y="320" font-size="8" fill="#64748b">get_state</text>
+  <text x="500" y="340" font-size="8" fill="#64748b">invoke</text>
+  <text x="600" y="380" font-size="8" fill="#64748b">API call</text>
+</svg>

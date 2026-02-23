@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+    <style>
+      .box { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 2; rx: 8; }
+      .box-label { font-family: system-ui, sans-serif; font-size: 12px; fill: #334155; font-weight: 600; }
+      .arrow { stroke: #64748b; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .title { font-family: system-ui, sans-serif; font-size: 18px; fill: #1e293b; font-weight: 700; }
+      .step { fill: #dbeafe; stroke: #3b82f6; }
+      .llm { fill: #f0fdf4; stroke: #22c55e; }
+      .store { fill: #fef3c7; stroke: #f59e0b; }
+      .code { font-family: monospace; font-size: 10px; fill: #475569; }
+    </style>
+  </defs>
+
+  <text x="400" y="25" class="title" text-anchor="middle">LangGraph Agent Pipeline</text>
+
+  <!-- Request -->
+  <g transform="translate(50, 60)">
+    <rect class="box" width="120" height="50"/>
+    <text x="60" y="20" class="boxanchor="middle">Request</text>
+-label" text-    <text x="60" y="38" class="code" text-anchor="middle">messages: [...]</text>
+  </g>
+
+  <!-- LangGraphAGUIAgent -->
+  <g transform="translate(220, 60)">
+    <rect class="box step" width="140" height="50"/>
+    <text x="70" y="20" class="box-label" text-anchor="middle">LangGraphAGUIAgent</text>
+    <text x="70" y="38" class="code" text-anchor="middle">name="chat_agent"</text>
+  </g>
+
+  <!-- StateGraph -->
+  <g transform="translate(400, 60)">
+    <rect class="box step" width="130" height="50"/>
+    <text x="65" y="20" class="box-label" text-anchor="middle">StateGraph</text>
+    <text x="65" y="38" class="code" text-anchor="middle">AgentState</text>
+  </g>
+
+  <!-- MemorySaver -->
+  <g transform="translate(570, 60)">
+    <rect class="box store" width="110" height="50"/>
+    <text x="55" y="20" class="box-label" text-anchor="middle">MemorySaver</text>
+    <text x="55" y="38" class="code" text-anchor="middle">checkpointer</text>
+  </g>
+
+  <!-- chat_node -->
+  <g transform="translate(300, 160)">
+    <rect class="box llm" width="130" height="60"/>
+    <text x="65" y="20" class="box-label" text-anchor="middle">chat_node</text>
+    <text x="65" y="38" class="code" text-anchor="middle">async def</text>
+    <text x="65" y="52" class="code" text-anchor="middle">LLM invocation</text>
+  </g>
+
+  <!-- ChatOpenAI -->
+  <g transform="translate(300, 260)">
+    <rect class="box llm" width="130" height="50"/>
+    <text x="65" y="20" class="box-label" text-anchor="middle">ChatOpenAI</text>
+    <text x="65" y="38" class="code" text-anchor="middle">gpt-4o-mini</text>
+  </g>
+
+  <!-- OpenAI API -->
+  <g transform="translate(480, 260)">
+    <rect class="box" width="100" height="50"/>
+    <text x="50" y="20" class="box-label" text-anchor="middle">OpenAI API</text>
+    <text x="50" y="38" class="code" text-anchor="middle">GPT-4o-mini</text>
+  </g>
+
+  <!-- Response -->
+  <g transform="translate(50, 180)">
+    <rect class="box" width="120" height="50"/>
+    <text x="60" y="20" class="box-label" text-anchor="middle">Response</text>
+    <text x="60" y="38" class="code" text-anchor="middle">stream tokens</text>
+  </g>
+
+  <!-- Arrows - Request Flow -->
+  <path d="M170 85 L210 85" class="arrow"/>
+  <path d="M360 85 L390 85" class="arrow"/>
+  <path d="M500 85 L560 85" class="arrow"/>
+
+  <!-- Arrows - Graph Processing -->
+  <path d="M465 130 L465 150 L430 150 L430 155" class="arrow"/>
+  <path d="M365 160 L320 160" class="arrow"/>
+
+  <!-- Arrows - LLM Call -->
+  <path d="M365 220 L365 250 L330 250" class="arrow"/>
+
+  <!-- Arrows - OpenAI -->
+  <path d="M430 285 L470 285" class="arrow"/>
+
+  <!-- Arrows - Response Flow -->
+  <path d="M530 285 L530 200 L430 200 L430 185" class="arrow"/>
+  <path d="M300 185 L170 185" class="arrow"/>
+
+  <!-- Legend Box -->
+  <g transform="translate(50, 300)">
+    <rect class="box" width="700" height="40" fill="#f8fafc" rx="4"/>
+    <text x="20" y="15" font-size="10" fill="#64748b">Key Points:</text>
+    <text x="20" y="30" font-size="9" fill="#64748b">1. Agent MUST have checkpointer for aget_state() calls</text>
+    <text x="320" y="30" font-size="9" fill="#64748b">2. Use LangGraphAGUIAgent (not LangGraphAgent)</text>
+    <text x="580" y="30" font-size="9" fill="#64748b">3. Agent name must match frontend</text>
+  </g>
+</svg>

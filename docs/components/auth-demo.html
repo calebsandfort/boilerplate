@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Authentication Demo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    :root {
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --bg-secondary: #f8fafc;
+      --border: #e2e8f0;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --error: #ef4444;
+      --success: #22c55e;
+      --radius: 8px;
+    }
+    .auth-container { max-width: 400px; margin: 60px auto; }
+    .auth-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+    .auth-tab { flex: 1; padding: 12px; text-align: center; cursor: pointer; color: var(--text-secondary); font-weight: 500; border-bottom: 2px solid transparent; transition: all 0.2s; }
+    .auth-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .auth-form { background: white; padding: 24px; border: 1px solid var(--border); border-radius: var(--radius); }
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 14px; font-weight: 500; color: var(--text-primary); margin-bottom: 6px; }
+    .form-input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; outline: none; transition: border-color 0.2s; box-sizing: border-box; }
+    .form-input:focus { border-color: var(--primary); }
+    .form-input.error { border-color: var(--error); }
+    .form-error { font-size: 12px; color: var(--error); margin-top: 4px; }
+    .form-button { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; transition: background 0.2s; margin-top: 8px; }
+    .form-button:hover { background: var(--primary-hover); }
+    .form-button:disabled { opacity: 0.6; cursor: not-allowed; }
+    .form-divider { display: flex; align-items: center; margin: 20px 0; color: var(--text-secondary); font-size: 12px; }
+    .form-divider::before, .form-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .form-divider span { padding: 0 12px; }
+    .oauth-button { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 10px; background: white; border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; transition: background 0.2s; }
+    .oauth-button:hover { background: var(--bg-secondary); }
+    .dashboard { display: none; }
+    .dashboard.show { display: block; }
+    .dashboard-header { background: var(--bg-secondary); padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .user-info { display: flex; align-items: center; gap: 12px; }
+    .user-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; }
+    .user-details h3 { font-weight: 600; font-size: 14px; }
+    .user-details p { font-size: 12px; color: var(--text-secondary); }
+    .sign-out-btn { padding: 8px 16px; background: white; border: 1px solid var(--border); border-radius: var(--radius); font-size: 13px; cursor: pointer; transition: background 0.2s; }
+    .sign-out-btn:hover { background: var(--bg-secondary); }
+    .auth-container.hidden { display: none; }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Auth Forms -->
+  <div class="auth-container" id="authContainer">
+    <div class="auth-tabs">
+      <div class="auth-tab active" data-tab="signin">Sign In</div>
+      <div class="auth-tab" data-tab="signup">Sign Up</div>
+    </div>
+
+    <!-- Sign In Form -->
+    <form class="auth-form" id="signinForm">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" id="signinEmail" placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-input" id="signinPassword" placeholder="••••••••">
+      </div>
+      <button type="submit" class="form-button">Sign In</button>
+
+      <div class="form-divider"><span>or continue with</span></div>
+
+      <button type="button" class="oauth-button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        </svg>
+        Google
+      </button>
+    </form>
+
+    <!-- Sign Up Form -->
+    <form class="auth-form" id="signupForm" style="display: none;">
+      <div class="form-group">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-input" id="signupName" placeholder="John Doe">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" id="signupEmail" placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-input" id="signupPassword" placeholder="••••••••">
+        <div class="form-error" id="passwordError" style="display: none;">Password must be at least 8 characters</div>
+      </div>
+      <button type="submit" class="form-button">Create Account</button>
+    </form>
+  </div>
+
+  <!-- Dashboard (shown after auth) -->
+  <div class="dashboard" id="dashboard">
+    <div class="dashboard-header">
+      <div class="user-info">
+        <div class="user-avatar" id="userAvatar">J</div>
+        <div class="user-details">
+          <h3 id="userName">John Doe</h3>
+          <p id="userEmail">john@example.com</p>
+        </div>
+      </div>
+      <button class="sign-out-btn" id="signOutBtn">Sign Out</button>
+    </div>
+    <div style="padding: 24px;">
+      <h2 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">Welcome to your dashboard</h2>
+      <p style="color: var(--text-secondary);">This is a protected route that requires authentication.</p>
+    </div>
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll('.auth-tab');
+    const signinForm = document.getElementById('signinForm');
+    const signupForm = document.getElementById('signupForm');
+    const authContainer = document.getElementById('authContainer');
+    const dashboard = document.getElementById('dashboard');
+    const passwordError = document.getElementById('passwordError');
+
+    // Tab switching
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        if (tab.dataset.tab === 'signin') {
+          signinForm.style.display = 'block';
+          signupForm.style.display = 'none';
+        } else {
+          signinForm.style.display = 'none';
+          signupForm.style.display = 'block';
+        }
+      });
+    });
+
+    // Form validation
+    signupForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const password = document.getElementById('signupPassword').value;
+
+      if (password.length < 8) {
+        passwordError.style.display = 'block';
+        document.getElementById('signupPassword').classList.add('error');
+        return;
+      }
+
+      passwordError.style.display = 'none';
+      document.getElementById('signupPassword').classList.remove('error');
+
+      // Show dashboard (simulated)
+      const name = document.getElementById('signupName').value;
+      const email = document.getElementById('signupEmail').value;
+
+      document.getElementById('userName').textContent = name;
+      document.getElementById('userEmail').textContent = email;
+      document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
+
+      authContainer.classList.add('hidden');
+      dashboard.classList.add('show');
+    });
+
+    signinForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('signinEmail').value;
+      const name = email.split('@')[0].replace(/[^a-zA-Z]/g, ' ').trim() || 'User';
+
+      document.getElementById('userName').textContent = name.charAt(0).toUpperCase() + name.slice(1);
+      document.getElementById('userEmail').textContent = email;
+      document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
+
+      authContainer.classList.add('hidden');
+      dashboard.classList.add('show');
+    });
+
+    document.getElementById('signOutBtn').addEventListener('click', () => {
+      authContainer.classList.remove('hidden');
+      dashboard.classList.remove('show');
+
+      // Clear forms
+      signinForm.reset();
+      signupForm.reset();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+    <style>
+      .box { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 2; rx: 8; }
+      .box-label { font-family: system-ui, sans-serif; font-size: 13px; fill: #334155; font-weight: 600; }
+      .arrow { stroke: #64748b; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .title { font-family: system-ui, sans-serif; font-size: 18px; fill: #1e293b; font-weight: 700; }
+      .step { font-family: system-ui, sans-serif; font-size: 10px; fill: #64748b; }
+      .highlight { fill: #dbeafe; stroke: #3b82f6; }
+    </style>
+  </defs>
+
+  <text x="400" y="30" class="title" text-anchor="middle">Authentication Flow</text>
+
+  <!-- User -->
+  <g transform="translate(50, 80)">
+    <rect class="box" width="100" height="50"/>
+    <text x="50" y="30" class="box-label" text-anchor="middle">User</text>
+  </g>
+
+  <!-- Sign In Form -->
+  <g transform="translate(200, 80)">
+    <rect class="box highlight" width="120" height="50"/>
+    <text x="60" y="25" class="box-label" text-anchor="middle">Sign In Form</text>
+    <text x="60" y="40" class="step" text-anchor="middle">(Zod validated)</text>
+  </g>
+
+  <!-- Next.js API -->
+  <g transform="translate(380, 80)">
+    <rect class="box highlight" width="120" height="50"/>
+    <text x="60" y="30" class="box-label" text-anchor="middle">/api/auth/sign-in</text>
+  </g>
+
+  <!-- Better Auth -->
+  <g transform="translate(560, 80)">
+    <rect class="box highlight" width="120" height="50"/>
+    <text x="60" y="30" class="box-label" text-anchor="middle">Better Auth</text>
+  </g>
+
+  <!-- Database -->
+  <g transform="translate(380, 180)">
+    <rect class="box" width="120" height="50"/>
+    <text x="60" y="30" class="box-label" text-anchor="middle">Database</text>
+  </g>
+
+  <!-- Session Cookie -->
+  <g transform="translate(200, 180)">
+    <rect class="box" width="120" height="50"/>
+    <text x="60" y="30" class="box-label" text-anchor="middle">Session Cookie</text>
+  </g>
+
+  <!-- Browser -->
+  <g transform="translate(50, 180)">
+    <rect class="box" width="100" height="50"/>
+    <text x="50" y="30" class="box-label" text-anchor="middle">Browser</text>
+  </g>
+
+  <!-- Middleware -->
+  <g transform="translate(200, 280)">
+    <rect class="box highlight" width="120" height="50"/>
+    <text x="60" y="30" class="box-label" text-anchor="middle">Middleware</text>
+  </g>
+
+  <!-- Protected Route -->
+  <g transform="translate(380, 280)">
+    <rect class="box" width="120" height="50"/>
+    <text x="60" y="30" class="box-label" text-anchor="middle">Protected Route</text>
+  </g>
+
+  <!-- Dashboard -->
+  <g transform="translate(560, 280)">
+    <rect class="box" width="120" height="50"/>
+    <text x="60" y="30" class="box-label" text-anchor="middle">Dashboard</text>
+  </g>
+
+  <!-- Arrows - Sign In Flow -->
+  <path d="M150 105 L190 105" class="arrow"/>
+  <path d="M320 105 L370 105" class="arrow"/>
+  <path d="M500 105 L550 105" class="arrow"/>
+  <path d="M620 130 L620 160 L500 160" class="arrow"/>
+
+  <!-- Arrows - Cookie Flow -->
+  <path d="M380 150 L380 130 L300 130 L300 155" class="arrow"/>
+  <path d="M200 155 L150 155" class="arrow"/>
+
+  <!-- Arrows - Request Flow -->
+  <path d="M100 230 L190 230" class="arrow"/>
+  <path d="M320 305 L370 305" class="arrow"/>
+  <path d="M500 305 L550 305" class="arrow"/>
+
+  <!-- Labels -->
+  <text x="250" y="95" font-size="9" fill="#64748b">POST</text>
+  <text x="450" y="95" font-size="9" fill="#64748b">process</text>
+  <text x="650" y="155" font-size="9" fill="#64748b">validate</text>
+  <text x="340" y="145" font-size="9" fill="#64748b">store user</text>
+  <text x="240" y="145" font-size="9" fill="#64748b">set-cookie</text>
+  <text x="125" y="220" font-size="9" fill="#64748b">cookie</text>
+  <text x="280" y="295" font-size="9" fill="#64748b">valid?</text>
+  <text x="490" y="295" font-size="9" fill="#64748b">allow</text>
+</svg>
