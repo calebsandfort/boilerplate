@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     openai_api_key: str = ""
     backend_host: str = "0.0.0.0"
     backend_port: int = 8000
+    frontend_url: str = "http://localhost:3000"
 
     model_config = {"env_file": ".env", "extra": "ignore"}
 

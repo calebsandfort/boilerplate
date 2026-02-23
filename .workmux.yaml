@@ -1,0 +1,19 @@
+files:
+  copy:
+    - .env
+    - frontend/.env
+    - backend/.env
+    - .envrc
+    - frontend/.envrc
+    - backend/.envrc
+
+post_create:
+  - chmod +x scripts/worktree-env scripts/worktree-setup
+  - ./scripts/worktree-env
+  - ./scripts/worktree-setup
+
+pre_merge:
+  - docker compose down 2>/dev/null || true
+
+pre_remove:
+  - docker compose down 2>/dev/null || true

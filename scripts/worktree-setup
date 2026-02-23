@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WORKTREE_ROOT="${WM_WORKTREE_PATH:-$(pwd)}"
+ENV_FLAGS="--env-file ${WORKTREE_ROOT}/.env --env-file ${WORKTREE_ROOT}/.env.local"
+POSTGRES_USER=$(grep -E '^POSTGRES_USER=' "${WORKTREE_ROOT}/.env" | cut -d= -f2- | tr -d '"' || echo "postgres")
+
+echo "=== [1/5] Starting database ==="
+docker compose $ENV_FLAGS up db -d
+
+echo "=== [2/5] Waiting for database ==="
+until docker compose $ENV_FLAGS exec -T db pg_isready -U "$POSTGRES_USER" 2>/dev/null; do
+  sleep 2
+done
+
+echo "=== [3/5] Installing frontend deps ==="
+cd "${WORKTREE_ROOT}/frontend" && pnpm install
+
+echo "=== [4/5] Pushing database schema ==="
+# direnv exec loads .env.local so DATABASE_URL points to the worktree's DB port.
+# dotenv/config in drizzle.config.ts won't override the already-set DATABASE_URL.
+direnv exec "${WORKTREE_ROOT}" sh -c "cd ${WORKTREE_ROOT}/frontend && pnpm drizzle-kit push"
+
+echo "=== [5/5] Syncing backend deps and starting all services ==="
+cd "${WORKTREE_ROOT}/backend" && uv sync
+docker compose $ENV_FLAGS up --build -d
+
+echo "=== Setup complete ==="

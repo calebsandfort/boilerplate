@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WORKTREE_ROOT="${WM_WORKTREE_PATH:-$(pwd)}"
+ENV_FILE="${WORKTREE_ROOT}/.env"
+
+# Read postgres credentials from copied .env
+POSTGRES_USER=$(grep -E '^POSTGRES_USER=' "$ENV_FILE" | cut -d= -f2- | tr -d '"' || echo "postgres")
+POSTGRES_PASSWORD=$(grep -E '^POSTGRES_PASSWORD=' "$ENV_FILE" | cut -d= -f2- | tr -d '"' || echo "postgres")
+POSTGRES_DB=$(grep -E '^POSTGRES_DB=' "$ENV_FILE" | cut -d= -f2- | tr -d '"' || echo "boilerplate")
+
+port_in_use() {
+  lsof -iTCP:"$1" -sTCP:LISTEN -t > /dev/null 2>&1
+}
+
+find_port() {
+  local port=$1
+  while port_in_use "$port"; do ((port++)); done
+  echo "$port"
+}
+
+# Deterministic offset from WM_HANDLE (fallback to dirname if not set)
+HANDLE="${WM_HANDLE:-$(basename "$WORKTREE_ROOT")}"
+hash=$(echo -n "$HANDLE" | md5sum | cut -c1-4)
+offset=$((16#$hash % 100))
+
+db_port=$(find_port $((5432 + offset)))
+backend_port=$(find_port $((8000 + offset)))
+frontend_port=$(find_port $((3000 + offset)))
+
+cat > "${WORKTREE_ROOT}/.env.local" << EOF
+# Dynamic ports for worktree: ${HANDLE} — do not edit manually
+DB_PORT=${db_port}
+BACKEND_PORT=${backend_port}
+FRONTEND_PORT=${frontend_port}
+DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:${db_port}/${POSTGRES_DB}
+BETTER_AUTH_URL=http://localhost:${frontend_port}
+BACKEND_URL=http://localhost:${backend_port}
+FRONTEND_URL=http://localhost:${frontend_port}
+EOF
+
+cat > "${WORKTREE_ROOT}/frontend/.env.local" << EOF
+# Dynamic ports for worktree: ${HANDLE} — do not edit manually
+DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:${db_port}/${POSTGRES_DB}
+BETTER_AUTH_URL=http://localhost:${frontend_port}
+BACKEND_URL=http://localhost:${backend_port}
+EOF
+
+cat > "${WORKTREE_ROOT}/backend/.env.local" << EOF
+# Dynamic ports for worktree: ${HANDLE} — do not edit manually
+DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:${db_port}/${POSTGRES_DB}
+FRONTEND_URL=http://localhost:${frontend_port}
+EOF
+
+direnv allow "${WORKTREE_ROOT}"
+direnv allow "${WORKTREE_ROOT}/frontend"
+direnv allow "${WORKTREE_ROOT}/backend"
+
+echo "Created .env.local files — DB=${db_port}, BACKEND=${backend_port}, FRONTEND=${frontend_port}"

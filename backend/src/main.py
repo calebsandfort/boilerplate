@@ -9,12 +9,13 @@ from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
 
 from src.agent.graph import agent  # noqa: E402
 from src.api.router import api_router  # noqa: E402
+from src.config import settings  # noqa: E402
 
 app = FastAPI(title="Boilerplate API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[settings.frontend_url],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
