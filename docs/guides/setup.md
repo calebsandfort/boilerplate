@@ -28,35 +28,44 @@ cd ../backend && uv sync
 
 ### 2. Environment Variables
 
-Create the `.env` file in the project root:
+The project uses scoped `.env` files in both frontend and backend directories:
 
 ```bash
-cp .env.example .env
+# Copy example env files to both directories
+cp frontend/.env.example frontend/.env
+cp backend/.env.example backend/.env
 ```
 
-Edit `.env` with your settings:
+Edit the files with your settings:
 
+**frontend/.env:**
 ```env
 # Database
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-POSTGRES_DB=boilerplate
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/boilerplate
 
 # Better Auth
 BETTER_AUTH_SECRET=your-secret-key-min-32-chars-long
 BETTER_AUTH_URL=http://localhost:3000
 
+# Backend
+BACKEND_URL=http://localhost:8000
+```
+
+**backend/.env:**
+```env
+# Database
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/boilerplate
+
 # OpenAI
 OPENAI_API_KEY=sk-your-openai-key
 
-# Backend
-BACKEND_URL=http://localhost:8000
+# Better Auth
+BETTER_AUTH_SECRET=your-secret-key-min-32-chars-long
+BETTER_AUTH_URL=http://localhost:3000
 
 # Ports
 DB_PORT=5432
 BACKEND_PORT=8000
-FRONTEND_PORT=3000
 ```
 
 ### 3. Start Services
