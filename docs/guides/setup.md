@@ -1,6 +1,6 @@
 # Setup Guide
 
-This guide covers the initial setup of the boilerplate project.
+This guide covers the initial setup of the aurelius-ledger project.
 
 ## Prerequisites
 
@@ -17,7 +17,7 @@ This guide covers the initial setup of the boilerplate project.
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd boilerplate
+cd aurelius-ledger
 
 # Install frontend dependencies
 cd frontend && pnpm install
@@ -28,10 +28,11 @@ cd ../backend && uv sync
 
 ### 2. Environment Variables
 
-The project uses scoped `.env` files in both frontend and backend directories:
+The project uses a root `.env` for Docker Compose plus scoped `.env` files in each service directory:
 
 ```bash
-# Copy example env files to both directories
+# Copy example env files
+cp .env.example .env
 cp frontend/.env.example frontend/.env
 cp backend/.env.example backend/.env
 ```
@@ -41,7 +42,7 @@ Edit the files with your settings:
 **frontend/.env:**
 ```env
 # Database
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/boilerplate
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/aurelius-ledger
 
 # Better Auth
 BETTER_AUTH_SECRET=your-secret-key-min-32-chars-long
@@ -54,7 +55,7 @@ BACKEND_URL=http://localhost:8000
 **backend/.env:**
 ```env
 # Database
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/boilerplate
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/aurelius-ledger
 
 # OpenAI
 OPENAI_API_KEY=sk-your-openai-key
@@ -88,7 +89,7 @@ cd backend && uv run uvicorn src.main:app --reload
 ## Project Structure
 
 ```
-boilerplate/
+aurelius-ledger/
 ├── frontend/          # Next.js application
 │   ├── src/
 │   │   ├── app/     # Pages and API routes
