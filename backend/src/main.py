@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from ag_ui_langgraph import add_langgraph_fastapi_endpoint  # noqa: E402
-from copilotkit import LangGraphAGUIAgent  # noqa: E402
+from ag_ui_langgraph import LangGraphAgent  # noqa: E402
 from fastapi import FastAPI  # noqa: E402
 from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
 
@@ -23,7 +23,7 @@ app.add_middleware(
 
 app.include_router(api_router)
 
-copilot_agent = LangGraphAGUIAgent(
+copilot_agent = LangGraphAgent(
     name="chat_agent",
     description="A helpful AI chat assistant.",
     graph=agent,
