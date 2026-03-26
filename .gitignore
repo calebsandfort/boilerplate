@@ -50,6 +50,10 @@ pgdata/
 # Drizzle
 drizzle/meta/
 
+# .NET
+api/bin/
+api/obj/
+
 # Misc
 *.log
 *.tsbuildinfo
