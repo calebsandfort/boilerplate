@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "ZLpOmfwFESw=",
+  "success": true,
+  "projectFilePath": "/home/caleb/source/repos/boilerplate/api/api.csproj",
+  "expectedPackageFiles": [
+    "/home/caleb/.nuget/packages/dapper/2.1.35/dapper.2.1.35.nupkg.sha512",
+    "/home/caleb/.nuget/packages/npgsql/8.0.6/npgsql.8.0.6.nupkg.sha512"
+  ],
+  "logs": []
+}
