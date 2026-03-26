@@ -57,3 +57,4 @@ api/obj/
 # Misc
 *.log
 *.tsbuildinfo
+packages-microsoft-prod.deb
