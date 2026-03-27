@@ -6,27 +6,30 @@ ENV_FLAGS="--env-file ${WORKTREE_ROOT}/.env --env-file ${WORKTREE_ROOT}/.env.loc
 POSTGRES_USER=$(grep -E '^POSTGRES_USER=' "${WORKTREE_ROOT}/.env" | cut -d= -f2- | tr -d '"' || echo "postgres")
 DB_PORT=$(grep -E '^DB_PORT=' "${WORKTREE_ROOT}/.env.local" | cut -d= -f2- | tr -d '"' || echo "5432")
 
-echo "=== [1/5] Starting database ==="
+echo "=== [1/6] Starting database ==="
 # Stop any container holding the DB port (different compose projects won't `down` each other's containers)
 stale_db=$(docker ps -q --filter "publish=${DB_PORT}" --filter "status=running" 2>/dev/null | head -1)
 [[ -n "$stale_db" ]] && docker stop "$stale_db" 2>/dev/null || true
 docker compose $ENV_FLAGS down db 2>/dev/null || true
 docker compose $ENV_FLAGS up db -d
 
-echo "=== [2/5] Waiting for database ==="
+echo "=== [2/6] Waiting for database ==="
 until docker compose $ENV_FLAGS exec -T db pg_isready -U "$POSTGRES_USER" 2>/dev/null; do
   sleep 2
 done
 
-echo "=== [3/5] Installing frontend deps ==="
+echo "=== [3/6] Installing frontend deps ==="
 cd "${WORKTREE_ROOT}/frontend" && pnpm install
 
-echo "=== [4/5] Pushing database schema ==="
+echo "=== [4/6] Pushing database schema ==="
 # direnv exec loads .env.local so DATABASE_URL points to the worktree's DB port.
 # dotenv/config in drizzle.config.ts won't override the already-set DATABASE_URL.
 direnv exec "${WORKTREE_ROOT}" sh -c "cd ${WORKTREE_ROOT}/frontend && pnpm drizzle-kit push"
 
-echo "=== [5/5] Syncing backend deps ==="
+echo "=== [5/6] Syncing backend deps ==="
 cd "${WORKTREE_ROOT}/backend" && uv sync
+
+echo "=== [6/6] Restoring api deps ==="
+cd "${WORKTREE_ROOT}/api" && dotnet restore
 
 echo "=== Setup complete ==="

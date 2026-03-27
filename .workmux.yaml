@@ -3,12 +3,13 @@ files:
     - .env
     - frontend/.env
     - backend/.env
+    - api/appsettings.json
     - .envrc
     - frontend/.envrc
     - backend/.envrc
 
 post_create:
-  - chmod +x scripts/worktree-env scripts/worktree-setup scripts/start-backend scripts/start-frontend
+  - chmod +x scripts/worktree-env scripts/worktree-setup scripts/start-backend scripts/start-frontend scripts/start-api
   - ./scripts/worktree-env
   - ./scripts/worktree-setup
 
@@ -25,4 +26,6 @@ panes:
   - command: ./scripts/start-frontend
     split: vertical
   - command: ./scripts/start-backend
+    split: vertical
+  - command: ./scripts/start-api
     split: vertical

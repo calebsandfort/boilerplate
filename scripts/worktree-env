@@ -27,15 +27,19 @@ offset=$((16#$hash % 100))
 db_port=$(find_port $((5432 + offset)))
 backend_port=$(find_port $((8000 + offset)))
 frontend_port=$(find_port $((3000 + offset)))
+api_port=$(find_port $((8080 + offset)))
+
 cat > "${WORKTREE_ROOT}/.env.local" << EOF
 # Dynamic ports for worktree: ${HANDLE} — do not edit manually
 DB_PORT=${db_port}
 BACKEND_PORT=${backend_port}
 FRONTEND_PORT=${frontend_port}
+API_PORT=${api_port}
 DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:${db_port}/${POSTGRES_DB}
 BETTER_AUTH_URL=http://localhost:${frontend_port}
 BACKEND_URL=http://localhost:${backend_port}
 FRONTEND_URL=http://localhost:${frontend_port}
+API_URL=http://localhost:${api_port}
 EOF
 
 cat > "${WORKTREE_ROOT}/frontend/.env.local" << EOF
@@ -55,4 +59,4 @@ direnv allow "${WORKTREE_ROOT}"
 direnv allow "${WORKTREE_ROOT}/frontend"
 direnv allow "${WORKTREE_ROOT}/backend"
 
-echo "Created .env.local files — DB=${db_port}, BACKEND=${backend_port}, FRONTEND=${frontend_port}"
+echo "Created .env.local files — DB=${db_port}, BACKEND=${backend_port}, FRONTEND=${frontend_port}, API=${api_port}"

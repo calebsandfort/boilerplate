@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -e
+WORKTREE_ROOT="${WM_WORKTREE_PATH:-$(cd "$(dirname "$0")/.." && pwd)}"
+
+# Load env vars from .env / .env.local
+# Unlike start-backend/start-frontend, tmux panes don't go through direnv exec,
+# so we source .env.local directly to pick up the generated ports.
+_load_dotenv() {
+  local file="$1"
+  [[ -f "$file" ]] || return 0
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    [[ -z "$line" || "$line" == \#* || "$line" != *=* ]] && continue
+    local key="${line%%=*}"
+    local value="${line#*=}"
+    [[ "$value" == '"'*'"' ]] && value="${value:1:${#value}-2}"
+    [[ "$value" == "'"*"'" ]] && value="${value:1:${#value}-2}"
+    export "$key=$value"
+  done < "$file"
+}
+
+_load_dotenv "${WORKTREE_ROOT}/.env"
+_load_dotenv "${WORKTREE_ROOT}/.env.local"
+
+# ASPNETCORE_URLS overrides the hardcoded UseUrls in Program.cs
+export ASPNETCORE_ENVIRONMENT=Development
+export ASPNETCORE_URLS="http://0.0.0.0:${API_PORT:-8080}"
+
+# .NET config maps ConnectionStrings__DefaultConnection → ConnectionStrings:DefaultConnection
+export ConnectionStrings__DefaultConnection="Host=localhost;Port=${DB_PORT:-5432};Database=${POSTGRES_DB:-boilerplate};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}"
+
+cd "${WORKTREE_ROOT}/api"
+exec dotnet run
