@@ -4,8 +4,13 @@ set -euo pipefail
 WORKTREE_ROOT="${WM_WORKTREE_PATH:-$(pwd)}"
 ENV_FLAGS="--env-file ${WORKTREE_ROOT}/.env --env-file ${WORKTREE_ROOT}/.env.local"
 POSTGRES_USER=$(grep -E '^POSTGRES_USER=' "${WORKTREE_ROOT}/.env" | cut -d= -f2- | tr -d '"' || echo "postgres")
+DB_PORT=$(grep -E '^DB_PORT=' "${WORKTREE_ROOT}/.env.local" | cut -d= -f2- | tr -d '"' || echo "5432")
 
 echo "=== [1/5] Starting database ==="
+# Stop any container holding the DB port (different compose projects won't `down` each other's containers)
+stale_db=$(docker ps -q --filter "publish=${DB_PORT}" --filter "status=running" 2>/dev/null | head -1)
+[[ -n "$stale_db" ]] && docker stop "$stale_db" 2>/dev/null || true
+docker compose $ENV_FLAGS down db 2>/dev/null || true
 docker compose $ENV_FLAGS up db -d
 
 echo "=== [2/5] Waiting for database ==="
